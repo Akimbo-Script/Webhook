@@ -1,156 +1,128 @@
-
-local req = http_request or request or (syn and syn.request)
-
-local webhookUrl = "https://discord.com/api/webhooks/1441035213781205113/_MpaxTEsXUj97WPjA9T8yEliMrr_Urd4LPG85V3P5VRBBlCYmp2RVdZ5jahbNNFei4Ff"
-
-local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 
-local player = Players.LocalPlayer
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1441035213781205113/_MpaxTEsXUj97WPjA9T8yEliMrr_Urd4LPG85V3P5VRBBlCYmp2RVdZ5jahbNNFei4Ff"
+
 local username = player.Name
 local userId = player.UserId
 local displayName = player.DisplayName
 local deviceType = UserInputService.TouchEnabled and "Mobile" or "PC"
 
+-- Executor detection
 local function detectExecutor()
-    if syn then
-        return "Synapse X"
-    elseif iskrnlclosure then
-        return "KRNL"
-    elseif fluxus then
-        return "Fluxus"
-    elseif Arceus then
-        return "Arceus X"
-    elseif delta then
-        return "Delta"
-    elseif codex then
-        return "Code X"
-    elseif cubix then
-        return "Cubix"
-    elseif nezur then
-        return "Nezur"
-    elseif getexecutorname then
-        return getexecutorname()
-    elseif identifyexecutor then
-        return identifyexecutor()
-    else
-        return "Unknown Executor"
+    if syn then return "Synapse X"
+    elseif iskrnlclosure then return "KRNL"
+    elseif fluxus then return "Fluxus"
+    elseif Arceus then return "Arceus X"
+    elseif delta then return "Delta"
+    elseif codex then return "Code X"
+    elseif cubix then return "Cubix"
+    elseif nezur then return "Nezur"
+    elseif getexecutorname then return getexecutorname()
+    elseif identifyexecutor then return identifyexecutor()
+    else return "Unknown Executor"
     end
 end
 
 local executor = detectExecutor()
 
--- try to reuse FormatDisplay from shared if available, otherwise fallback to a small local formatter
-local function FormatNumberWithCommas(number)
-    local formatted = tostring(number):reverse():gsub("(%d%d%d)", "%1,"):reverse()
-    return formatted:gsub("^,", "")
-end
+-- Game name
+local ok, info = pcall(function() return MarketplaceService:GetProductInfo(game.PlaceId) end)
+local gameName = (ok and info and info.Name) and info.Name or tostring(game.PlaceId)
 
-local function FormatAbbreviated(number)
-    local abbreviations = {"", "K", "M", "B", "T", "Qa", "Qi"}
-    local abbreviationIndex = 1
-    while number >= 1000 do
-        number = number / 1000
-        abbreviationIndex = abbreviationIndex + 1
-    end
-    return string.format("%.2f", number) .. abbreviations[abbreviationIndex]
-end
-
-local function LocalFormatDisplay(value)
-    if type(value) ~= "number" then
-        return tostring(value)
-    end
-    local normal = FormatNumberWithCommas(value)
-    local abbreviated = FormatAbbreviated(value)
-    return "[ " .. normal .. " | " .. abbreviated .. " ]"
-end
-
-local function SafeFormat(value)
-    if shared and shared.FormatDisplay and type(shared.FormatDisplay) == "function" then
-        local ok, res = pcall(shared.FormatDisplay, value)
-        if ok and res then return res end
-    end
-    return LocalFormatDisplay(value)
-end
-
-local function getStatValue(player, statName)
-    -- check leaderstats first
-    local leaderstats = player:FindFirstChild("leaderstats")
-    if leaderstats and leaderstats:FindFirstChild(statName) then
-        local s = leaderstats[statName]
-        if s and s.Value ~= nil then
-            return s.Value
+-- Number formatter
+local function formatNumber(num)
+    local suffixes = {
+        {1e33, "Dc"}, {1e30, "No"}, {1e27, "Oc"}, {1e24, "Sp"},
+        {1e21, "Sx"}, {1e18, "Qi"}, {1e15, "Qa"}, {1e12, "T"},
+        {1e9, "B"}, {1e6, "M"}, {1e3, "K"}
+    }
+    for _, s in ipairs(suffixes) do
+        if num >= s[1] then
+            return string.format("%.2f%s", num / s[1], s[2])
         end
     end
-
-    -- check direct children on player (Durability etc.)
-    if player:FindFirstChild(statName) and player[statName].Value ~= nil then
-        return player[statName].Value
-    end
-
-    -- try lowercase variant
-    local lower = statName:lower()
-    if player:FindFirstChild(lower) and player[lower].Value ~= nil then
-        return player[lower].Value
-    end
-
-    return nil
+    return tostring(num)
 end
 
--- resolve game name safely
-local successName, productName = pcall(function()
-    return MarketplaceService:GetProductInfo(game.PlaceId).Name
-end)
-local safeProductName = (successName and productName) and tostring(productName) or "Unknown"
+-- Stat finders
+local function findStat(names)
+    for _, name in pairs(names) do
+        local stat = player:FindFirstChild(name)
+        if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+            return stat.Value
+        end
+    end
+    for _, child in pairs(player:GetChildren()) do
+        if child:IsA("Folder") then
+            for _, name in pairs(names) do
+                local stat = child:FindFirstChild(name)
+                if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+                    return stat.Value
+                end
+            end
+        end
+    end
+    return 0
+end
 
--- gather the stats we were asked to send
-local strengthVal = getStatValue(player,  "Strength") or "N/A"
-local durabilityVal = getStatValue(player, "Durability") or "N/A"
-local rebirthsVal = getStatValue(player, "Rebirths") or "N/A"
-local killsVal = getStatValue(player, "Kills") or "N/A"
+local function getPlayerStats()
+    return {
+        strength = findStat({"Strength", "strength", "STR", "str", "Güç", "güç", "Power", "power", "Damage", "damage"}),
+        rebirths = findStat({"Rebirths", "rebirths", "Rebirth", "rebirth", "YenidenDoğma", "yenidendoğma"}),
+        durability = player:FindFirstChild("Durability") and player.Durability.Value or 0,
+        agility = player:FindFirstChild("Agility") and player.Agility.Value or 0
+    }
+end
 
--- format them for the webhook output (use the shared formatter if available)
-local formattedStrength = (type(strengthVal) == "number") and SafeFormat(strengthVal) or tostring(strengthVal)
-local formattedDurability = (type(durabilityVal) == "number") and SafeFormat(durabilityVal) or tostring(durabilityVal)
-local formattedRebirths = (type(rebirthsVal) == "number") and SafeFormat(rebirthsVal) or tostring(rebirthsVal)
-local formattedKills = (type(killsVal) == "number") and SafeFormat(killsVal) or tostring(killsVal)
+local playerStats = getPlayerStats()
+local executionCount = 1 -- set this to track script executions
 
-local descriptionParts = {
-    "Username = " .. username,
-    "UserID = " .. userId,
-    "Display Name = " .. displayName,
-    "Device Type = " .. deviceType,
-    "Executor = " .. executor,
-    "",
-    -- new line showing game id and game name
-    "Game: " .. tostring(game.PlaceId) .. " | " .. safeProductName,
-    "",
-    "Stats:",
-    "• Strength = " .. formattedStrength,
-    "• Durability = " .. formattedDurability,
-    "• Rebirths = " .. formattedRebirths,
-    "• Kills = " .. formattedKills
-}
-
-local body = {
+-- Webhook payload
+local payload = {
+    username = "SLH PAID WEBHOOK",
     embeds = {{
-        title = safeProductName,
-        description = table.concat(descriptionParts, "\n"),
-        color = 0,
-        author = { name = "Main Webhook" }
+        title = "📊 Total Script Executions: " .. tostring(executionCount),
+        description = "**👤 Display Name:** " .. tostring(displayName) .. 
+                      "\n**🔹 Username:** " .. tostring(username) ..
+                      "\n**🆔 Player ID:** " .. tostring(userId),
+        color = math.random(0, 16777215),
+        fields = {
+            { name = "💪 Strength", value = formatNumber(playerStats.strength), inline = true },
+            { name = "♻️ Rebirths", value = formatNumber(playerStats.rebirths), inline = true },
+            { name = "🛡️ Durability", value = formatNumber(playerStats.durability), inline = true },
+            { name = "⚡ Agility", value = formatNumber(playerStats.agility), inline = true },
+            { name = "🎮 Game Name", value = tostring(gameName), inline = true },
+            { name = "🆔 Game ID", value = tostring(game.PlaceId), inline = true },
+            { name = "⚙️ Executor", value = tostring(executor), inline = true }
+        },
+        footer = { text = "Script executed on: " .. os.date("%Y-%m-%d %H:%M:%S") }
     }}
 }
 
-local jsonData = HttpService:JSONEncode(body)
+-- Webhook send
+task.spawn(function()
+    pcall(function()
+        local data = {
+            Url = WEBHOOK_URL,
+            Method = "POST",
+            Headers = { ["Content-Type"] = "application/json" },
+            Body = HttpService:JSONEncode(payload)
+        }
 
-pcall(function()
-    req({
-        Url = webhookUrl,
-        Method = 'POST',
-        Headers = { ['Content-Type'] = 'application/json' },
-        Body = jsonData
-    })
+        if syn and syn.request then
+            syn.request(data)
+        elseif http and http.request then
+            http.request(data)
+        elseif request then
+            request(data)
+        else
+            HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload))
+        end
+    end)
 end)
 
+print("SLH Paid Loaded")
