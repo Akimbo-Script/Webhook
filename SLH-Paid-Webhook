@@ -4,6 +4,7 @@ local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 
+-- Put your Discord webhook URL here
 local WEBHOOK_URL = "https://discord.com/api/webhooks/1441035213781205113/_MpaxTEsXUj97WPjA9T8yEliMrr_Urd4LPG85V3P5VRBBlCYmp2RVdZ5jahbNNFei4Ff"
 
 local username = player.Name
@@ -48,7 +49,7 @@ local function formatNumber(num)
     return tostring(num)
 end
 
--- Stat finders
+-- Stat finder
 local function findStat(names)
     for _, name in pairs(names) do
         local stat = player:FindFirstChild(name)
@@ -79,7 +80,17 @@ local function getPlayerStats()
 end
 
 local playerStats = getPlayerStats()
-local executionCount = 1 -- set this to track script executions
+
+-- Increment execution count (session-only)
+local execCountValue = player:FindFirstChild("ExecutionCount")
+if not execCountValue then
+    execCountValue = Instance.new("IntValue")
+    execCountValue.Name = "ExecutionCount"
+    execCountValue.Value = 0
+    execCountValue.Parent = player
+end
+execCountValue.Value = execCountValue.Value + 1
+local executionCount = execCountValue.Value
 
 -- Webhook payload
 local payload = {
@@ -88,8 +99,9 @@ local payload = {
         title = "📊 Total Script Executions: " .. tostring(executionCount),
         description = "**👤 Display Name:** " .. tostring(displayName) .. 
                       "\n**🔹 Username:** " .. tostring(username) ..
-                      "\n**🆔 Player ID:** " .. tostring(userId),
-        color = math.random(0, 16777215),
+                      "\n**🆔 Player ID:** " .. tostring(userId) ..
+                      "\n**📱 Device:** " .. deviceType,
+        color = math.random(0, 16776960),
         fields = {
             { name = "💪 Strength", value = formatNumber(playerStats.strength), inline = true },
             { name = "♻️ Rebirths", value = formatNumber(playerStats.rebirths), inline = true },
@@ -103,7 +115,7 @@ local payload = {
     }}
 }
 
--- Webhook send
+-- Send webhook
 task.spawn(function()
     pcall(function()
         local data = {
@@ -125,4 +137,4 @@ task.spawn(function()
     end)
 end)
 
-print("SLH Paid Loaded")
+print("Webhook sent successfully! Total executions: " .. executionCount)
