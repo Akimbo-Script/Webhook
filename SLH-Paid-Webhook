@@ -2,93 +2,178 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
-local UserInputService = game:GetService("UserInputService")
 
 local WEBHOOK_URL = "https://discord.com/api/webhooks/1441035213781205113/_MpaxTEsXUj97WPjA9T8yEliMrr_Urd4LPG85V3P5VRBBlCYmp2RVdZ5jahbNNFei4Ff"
 
-local username = player.Name
-local userId = player.UserId
-local displayName = player.DisplayName
-local deviceType = UserInputService.TouchEnabled and "Mobile" or "PC"
+-- Execution count'u takip etmek için
+local executionCount = 1
 
--- Executor detection
-local function detectExecutor()
-    if syn then return "Synapse X"
-    elseif iskrnlclosure then return "KRNL"
-    elseif fluxus then return "Fluxus"
-    elseif Arceus then return "Arceus X"
-    elseif delta then return "Delta"
-    elseif codex then return "Code X"
-    elseif cubix then return "Cubix"
-    elseif nezur then return "Nezur"
-    elseif getexecutorname then return getexecutorname()
-    elseif identifyexecutor then return identifyexecutor()
-    else return "Unknown Executor"
+pcall(function()
+    if isfile and isfile("unlimited_execution_count.txt") then
+        executionCount = tonumber(readfile("unlimited_execution_count.txt")) or 1
+        executionCount = executionCount + 1
     end
+    if writefile then
+        writefile("unlimited_execution_count.txt", tostring(executionCount))
+    end
+end)
+
+-- Executor tespiti
+local function getExecutor()
+    if syn then
+        return "Synapse X"
+    elseif PROTOSMASHER_LOADED then
+        return "ProtoSmasher"
+    elseif KRNL_LOADED then
+        return "Krnl"
+    elseif pepeg then
+        return "Script-Ware"
+    elseif fluxus then
+        return "Fluxus"
+    elseif is_sirhurt_closure then
+        return "SirHurt"
+    elseif identifyexecutor then
+        local success, result = pcall(identifyexecutor)
+        if success and result then
+            return tostring(result)
+        end
+    elseif getexecutorname then
+        local success, result = pcall(getexecutorname)
+        if success and result then
+            return tostring(result)
+        end
+    end
+
+    if debug and debug.getinfo and debug.getinfo(1).short_src then
+        local src = debug.getinfo(1).short_src
+        if string.find(src, "Synapse", 1, true) then
+            return "Synapse X"
+        elseif string.find(src, "Krnl", 1, true) then
+            return "Krnl"
+        end
+    end
+
+    return "Unknown Executor"
 end
 
-local executor = detectExecutor()
+local executorName = getExecutor()
 
--- Game name
 local ok, info = pcall(function() return MarketplaceService:GetProductInfo(game.PlaceId) end)
 local gameName = (ok and info and info.Name) and info.Name or tostring(game.PlaceId)
 
--- Number formatter
+-- 🔢 Gelişmiş sayı formatlayıcı (K, M, B, T, Qa, Qi, Sx, Sp, Oc, No, Dc destekli)
 local function formatNumber(num)
     local suffixes = {
-        {1e33, "Dc"}, {1e30, "No"}, {1e27, "Oc"}, {1e24, "Sp"},
-        {1e21, "Sx"}, {1e18, "Qi"}, {1e15, "Qa"}, {1e12, "T"},
-        {1e9, "B"}, {1e6, "M"}, {1e3, "K"}
+        {1e33, "Dc"},  -- Decillion
+        {1e30, "No"},  -- Nonillion
+        {1e27, "Oc"},  -- Octillion
+        {1e24, "Sp"},  -- Septillion
+        {1e21, "Sx"},  -- Sextillion
+        {1e18, "Qi"},  -- Quintillion
+        {1e15, "Qa"},  -- Quadrillion
+        {1e12, "T"},   -- Trillion
+        {1e9,  "B"},   -- Billion
+        {1e6,  "M"},   -- Million
+        {1e3,  "K"}    -- Thousand
     }
-    for _, s in ipairs(suffixes) do
-        if num >= s[1] then
-            return string.format("%.2f%s", num / s[1], s[2])
+
+    for _, suffix in ipairs(suffixes) do
+        local value, symbol = suffix[1], suffix[2]
+        if num >= value then
+            return string.format("%.2f%s", num / value, symbol)
         end
     end
+
     return tostring(num)
 end
 
--- Stat finders
-local function findStat(names)
-    for _, name in pairs(names) do
-        local stat = player:FindFirstChild(name)
-        if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
-            return stat.Value
-        end
-    end
-    for _, child in pairs(player:GetChildren()) do
-        if child:IsA("Folder") then
-            for _, name in pairs(names) do
-                local stat = child:FindFirstChild(name)
-                if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
-                    return stat.Value
-                end
+-- Strength bulma fonksiyonu
+local function findStrength()
+    local strengthValue = 0
+    pcall(function()
+        local strengthNames = {"Strength", "strength", "STR", "str", "Güç", "güç", "Power", "power", "Damage", "damage"}
+        for _, name in pairs(strengthNames) do
+            local stat = player:FindFirstChild(name)
+            if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+                strengthValue = stat.Value
+                break
             end
         end
-    end
-    return 0
+        if strengthValue == 0 then
+            for _, child in pairs(player:GetChildren()) do
+                if child:IsA("Folder") then
+                    for _, name in pairs(strengthNames) do
+                        local stat = child:FindFirstChild(name)
+                        if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+                            strengthValue = stat.Value
+                            break
+                        end
+                    end
+                end
+                if strengthValue > 0 then break end
+            end
+        end
+    end)
+    return strengthValue
 end
 
+-- Rebirth bulma fonksiyonu
+local function findRealRebirth()
+    local rebirthValue = 0
+    pcall(function()
+        local rebirthNames = {"Rebirths", "rebirths", "Rebirth", "rebirth", "YenidenDoğma", "yenidendoğma"}
+        for _, name in pairs(rebirthNames) do
+            local stat = player:FindFirstChild(name)
+            if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+                rebirthValue = stat.Value
+                break
+            end
+        end
+        if rebirthValue == 0 then
+            for _, child in pairs(player:GetChildren()) do
+                if child:IsA("Folder") then
+                    for _, name in pairs(rebirthNames) do
+                        local stat = child:FindFirstChild(name)
+                        if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+                            rebirthValue = stat.Value
+                            break
+                        end
+                    end
+                end
+                if rebirthValue > 0 then break end
+            end
+        end
+    end)
+    return rebirthValue
+end
+
+-- Stat bulma fonksiyonu
 local function getPlayerStats()
-    return {
-        strength = findStat({"Strength", "strength", "STR", "str", "Güç", "güç", "Power", "power", "Damage", "damage"}),
-        rebirths = findStat({"Rebirths", "rebirths", "Rebirth", "rebirth", "YenidenDoğma", "yenidendoğma"}),
-        durability = player:FindFirstChild("Durability") and player.Durability.Value or 0,
-        agility = player:FindFirstChild("Agility") and player.Agility.Value or 0
+    local stats = {
+        strength = 0,
+        rebirths = 0,
+        durability = 0,
+        agility = 0
     }
+    pcall(function()
+        stats.strength = findStrength()
+        stats.durability = player:FindFirstChild("Durability") and player.Durability.Value or 0
+        stats.agility = player:FindFirstChild("Agility") and player.Agility.Value or 0
+        stats.rebirths = findRealRebirth()
+    end)
+    return stats
 end
 
 local playerStats = getPlayerStats()
-local executionCount = 1 -- set this to track script executions
 
 -- Webhook payload
 local payload = {
-    username = "SLH PAID WEBHOOK",
+    username = "SLH-PAID WEBHOOK",
     embeds = {{
         title = "📊 Total Script Executions: " .. tostring(executionCount),
-        description = "**👤 Display Name:** " .. tostring(displayName) .. 
-                      "\n**🔹 Username:** " .. tostring(username) ..
-                      "\n**🆔 Player ID:** " .. tostring(userId),
+        description = "**👤 Display Name:** " .. tostring(player.DisplayName or "N/A") .. 
+                     "\n**🔹 Username:** " .. tostring(player.Name or "N/A") ..
+                     "\n**🆔 Player ID:** " .. tostring(player.UserId or "N/A"),
         color = math.random(0, 16777215),
         fields = {
             { name = "💪 Strength", value = formatNumber(playerStats.strength), inline = true },
@@ -96,14 +181,14 @@ local payload = {
             { name = "🛡️ Durability", value = formatNumber(playerStats.durability), inline = true },
             { name = "⚡ Agility", value = formatNumber(playerStats.agility), inline = true },
             { name = "🎮 Game Name", value = tostring(gameName), inline = true },
-            { name = "🆔 Game ID", value = tostring(game.PlaceId), inline = true },
-            { name = "⚙️ Executor", value = tostring(executor), inline = true }
+            { name = "🆔 Game ID", value = tostring(game.PlaceId or "N/A"), inline = true },
+            { name = "⚙️ Executor", value = tostring(executorName), inline = true }
         },
         footer = { text = "Script executed on: " .. os.date("%Y-%m-%d %H:%M:%S") }
     }}
 }
 
--- Webhook send
+-- Webhook gönderimi
 task.spawn(function()
     pcall(function()
         local data = {
