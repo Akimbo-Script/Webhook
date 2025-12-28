@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Source Code Protector</title>
+</head>
+<body>
+
+<h2>🔐 Source Code → Protected Link</h2>
+
+<textarea id="code" placeholder="Paste your source code here..." style="width:100%;height:150px"></textarea><br><br>
+<input id="key" placeholder="Set access key"><br><br>
+<button onclick="generate()">Protect & Generate Link</button>
+
+<h3>Generated Link:</h3>
+<pre id="output"></pre>
+
+<script>
+function randomID() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+function generate() {
+    const code = document.getElementById("code").value;
+    const key = document.getElementById("key").value;
+
+    if (!code || !key) {
+        alert("Missing code or key!");
+        return;
+    }
+
+    const id = randomID();
+    localStorage.setItem("code_" + id, btoa(code));
+    localStorage.setItem("key_" + id, btoa(key));
+
+    const link = location.origin + location.pathname.replace("index.html","") + "view.html?id=" + id;
+    document.getElementById("output").textContent = link;
+}
+</script>
+
+</body>
+</html>
