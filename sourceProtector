@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Protected Source</title>
+</head>
+<body style="background:#111;color:#0f0;font-family:monospace">
+
+<script>
+const id = new URLSearchParams(location.search).get("id");
+
+if (!id) {
+    document.body.innerHTML = "❌ Invalid link";
+    throw "";
+}
+
+const code = localStorage.getItem("code_" + id);
+const key = localStorage.getItem("key_" + id);
+
+if (!code || !key) {
+    document.body.innerHTML = "❌ Code not found";
+    throw "";
+}
+
+const input = prompt("Enter access key:");
+
+if (btoa(input) !== key) {
+    document.body.innerHTML = "❌ Access denied";
+} else {
+    document.body.innerHTML = "<pre>" + atob(code) + "</pre>";
+}
+</script>
+
+</body>
+</html>
