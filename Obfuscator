@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lua Obfuscator</title>
+<style>
+:root{
+    --bg:#0e1117;
+    --panel:#161b22;
+    --panel-2:#1f2630;
+    --accent:#4ade80;
+    --accent-2:#22d3ee;
+    --danger:#ef4444;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    min-height:100vh;
+    background:radial-gradient(1200px 600px at 10% -10%,#1f2937,transparent),
+               radial-gradient(1200px 600px at 90% 10%,#020617,transparent),
+               var(--bg);
+    color:var(--text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.container{
+    width:min(1100px,95%);
+    background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+    padding:22px;
+}
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+.header h2{
+    margin:0;
+    font-size:22px;
+    letter-spacing:.5px;
+}
+.badge{
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:12px;
+    color:#022c22;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{
+    background:var(--panel);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:14px;
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+.panel-title{
+    font-size:12px;
+    color:var(--muted);
+}
+textarea{
+    width:100%;
+    min-height:260px;
+    resize:none;
+    border-radius:12px;
+    background:linear-gradient(180deg,var(--panel-2),#0b1220);
+    border:1px solid rgba(255,255,255,.08);
+    color:#a7f3d0;
+    padding:14px;
+    outline:none;
+}
+textarea::placeholder{color:#6b7280}
+textarea:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(74,222,128,.4)}
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+}
+.btn{
+    border-radius:12px;
+    padding:10px 16px;
+    border:1px solid rgba(255,255,255,.12);
+    background:linear-gradient(180deg,#1f2937,#0b1220);
+    color:var(--text);
+    cursor:pointer;
+    transition:.15s ease;
+}
+.btn.primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#022c22;
+    border:none;
+}
+.btn.warn{
+    background:linear-gradient(135deg,#fb7185,#ef4444);
+    color:#3f0707;
+    border:none;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn:active{transform:translateY(0)}
+input[type=file]{display:none}
+.footer{
+    margin-top:14px;
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+}
+</style>
+</head>
+<body><div class="container">
+    <div class="header">
+        <h2>Lua Obfuscator</h2>
+        <span class="badge">Modern UI</span>
+    </div><div class="grid">
+    <div class="panel">
+        <div class="panel-title">Input Lua</div>
+        <textarea id="input" placeholder="Paste Lua script here"></textarea>
+    </div>
+    <div class="panel">
+        <div class="panel-title">Obfuscated Output</div>
+        <textarea id="output" placeholder="Obfuscated Lua output (one line)"></textarea>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="btn primary" onclick="obfuscate()">⚡ Obfuscate</button>
+    <button class="btn" onclick="copyOutput()">📋 Copy</button>
+    <button class="btn" onclick="pasteInput()">📥 Paste</button>
+    <button class="btn warn" onclick="cleanAll()">🧹 Clean</button>
+    <button class="btn" onclick="downloadLua()">⬇ Download</button>
+    <label class="btn" for="fileInput">📂 Select File</label>
+    <input type="file" id="fileInput" accept=".lua,.txt">
+</div>
+
+<div class="footer">HTML Lua Obfuscator</div>
+
+</div><script>
+function toBytes(str){return str.split("").map(c=>"\\"+c.charCodeAt(0)).join("")}
+function obfuscate(){
+    let code=input.value;if(!code.trim())return;
+    let encoded=toBytes(code);
+    let tableName="_"+Math.random().toString(36).slice(2,8);
+    let fnName="_"+Math.random().toString(36).slice(2,8);
+    let outputCode=(
+`--[[ Protected By Akimbo ]]return(function(...)local ${tableName}={"${encoded}"}local function ${fnName}(i)return ${tableName}[i]end
+local function _decode(s)local r={}local n=1 while n<=#s do local c=string.sub(s,n,n)
+if c=="\\\\" then local a="" n=n+1 while n<=#s do local d=string.sub(s,n,n)
+if d:match("%d") then a=a..d n=n+1 else break end end
+table.insert(r,string.char(tonumber(a)))else table.insert(r,c)n=n+1 end end
+return table.concat(r)end local _chunk=_decode(${fnName}(1))
+local _f=loadstring or load return _f(_chunk)(...)end)(...)`
+    ).replace(/\s+/g," ");
+    output.value=outputCode;
+}
+function copyOutput(){output.select();document.execCommand("copy")}
+async function pasteInput(){input.value=await navigator.clipboard.readText()}
+function cleanAll(){input.value="";output.value=""}
+function downloadLua(){if(!output.value)return;let b=new Blob([output.value]);let a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="obfuscated.lua";a.click()}
+fileInput.onchange=()=>{let f=fileInput.files[0];if(!f)return;let r=new FileReader();r.onload=e=>input.value=e.target.result;r.readAsText(f)}
+</script></body>
+</html>
