@@ -1,0 +1,130 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
+local UserInputService = game:GetService("UserInputService")
+
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1444749023805309091/gYBxDBLY8xsfTJam6Y1pRnYYDgWyCmc-ZS9sNGaFL8JpFjm8pQMFbrApgFi8nRuOS9eH"
+
+local username = player.Name
+local userId = player.UserId
+local displayName = player.DisplayName
+local deviceType = UserInputService.TouchEnabled and "Mobile" or "PC"
+
+local function detectExecutor()
+    if syn then return "Synapse X"
+    elseif iskrnlclosure then return "KRNL"
+    elseif fluxus then return "Fluxus"
+    elseif Arceus then return "Arceus X"
+    elseif delta then return "Delta"
+    elseif codex then return "Code X"
+    elseif cubix then return "Cubix"
+    elseif nezur then return "Nezur"
+    elseif getexecutorname then return getexecutorname()
+    elseif identifyexecutor then return identifyexecutor()
+    else return "Unknown Executor"
+    end
+end
+
+local executor = detectExecutor()
+
+local ok, info = pcall(function() return MarketplaceService:GetProductInfo(game.PlaceId) end)
+local gameName = (ok and info and info.Name) and info.Name or tostring(game.PlaceId)
+
+local function formatNumber(num)
+    local suffixes = {
+        {1e33, "Dc"}, {1e30, "No"}, {1e27, "Oc"}, {1e24, "Sp"},
+        {1e21, "Sx"}, {1e18, "Qi"}, {1e15, "Qa"}, {1e12, "T"},
+        {1e9, "B"}, {1e6, "M"}, {1e3, "K"}
+    }
+    for _, s in ipairs(suffixes) do
+        if num >= s[1] then
+            return string.format("%.2f%s", num / s[1], s[2])
+        end
+    end
+    return tostring(num)
+end
+
+local function findStat(names)
+    for _, name in pairs(names) do
+        local stat = player:FindFirstChild(name)
+        if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+            return stat.Value
+        end
+    end
+    for _, child in pairs(player:GetChildren()) do
+        if child:IsA("Folder") then
+            for _, name in pairs(names) do
+                local stat = child:FindFirstChild(name)
+                if stat and (stat:IsA("IntValue") or stat:IsA("NumberValue")) then
+                    return stat.Value
+                end
+            end
+        end
+    end
+    return 0
+end
+
+local function getPlayerStats()
+    return {
+        strength = findStat({"Strength", "strength", "STR", "str", "Güç", "güç", "Power", "power", "Damage", "damage"}),
+        rebirths = findStat({"Rebirths", "rebirths", "Rebirth", "rebirth", "YenidenDoğma", "yenidendoğma"}),
+        durability = player:FindFirstChild("Durability") and player.Durability.Value or 0,
+        agility = player:FindFirstChild("Agility") and player.Agility.Value or 0
+    }
+end
+
+local playerStats = getPlayerStats()
+
+local execCountValue = player:FindFirstChild("ExecutionCount")
+if not execCountValue then
+    execCountValue = Instance.new("IntValue")
+    execCountValue.Name = "ExecutionCount"
+    execCountValue.Value = 0
+    execCountValue.Parent = player
+end
+execCountValue.Value = execCountValue.Value + 1
+local executionCount = execCountValue.Value
+
+local payload = {
+    username = "SLH PUBLIC WEBHOOK",
+    embeds = {{
+        title = "📊 Total Script Executions: " .. tostring(executionCount),
+        description = "**👤 Display Name:** " .. tostring(displayName) .. 
+                      "\n**🔹 Username:** " .. tostring(username) ..
+                      "\n**🆔 Player ID:** " .. tostring(userId) ..
+                      "\n**📱 Device:** " .. deviceType,
+        color = math.random(0, 16776960),
+        fields = {
+            { name = "💪 Strength", value = formatNumber(playerStats.strength), inline = true },
+            { name = "♻️ Rebirths", value = formatNumber(playerStats.rebirths), inline = true },
+            { name = "🛡️ Durability", value = formatNumber(playerStats.durability), inline = true },
+            { name = "⚡ Agility", value = formatNumber(playerStats.agility), inline = true },
+            { name = "🎮 Game Name", value = tostring(gameName), inline = true },
+            { name = "🆔 Game ID", value = tostring(game.PlaceId), inline = true },
+            { name = "⚙️ Executor", value = tostring(executor), inline = true }
+        },
+        footer = { text = "Script executed on: " .. os.date("%Y-%m-%d %H:%M:%S") }
+    }}
+}
+
+task.spawn(function()
+    pcall(function()
+        local data = {
+            Url = WEBHOOK_URL,
+            Method = "POST",
+            Headers = { ["Content-Type"] = "application/json" },
+            Body = HttpService:JSONEncode(payload)
+        }
+
+        if syn and syn.request then
+            syn.request(data)
+        elseif http and http.request then
+            http.request(data)
+        elseif request then
+            request(data)
+        else
+            HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload))
+        end
+    end)
+end)
