@@ -4,7 +4,7 @@ local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 
-local WEBHOOK_URL = "https://discord.com/api/webhooks/1444749023805309091/gYBxDBLY8xsfTJam6Y1pRnYYDgWyCmc-ZS9sNGaFL8JpFjm8pQMFbrApgFi8nRuOS9eH"
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1525215335001882670/pFVaEwouYNZ253EcbIxPZrFNNM_E5OazgWrzM5jpAnePFL5pOMKtZDi8mdWpHa3OncOZ"
 
 local username = player.Name
 local userId = player.UserId
