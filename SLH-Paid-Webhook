@@ -3,7 +3,7 @@ local player = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 
-local WEBHOOK_URL = "https://discord.com/api/webhooks/1441035213781205113/_MpaxTEsXUj97WPjA9T8yEliMrr_Urd4LPG85V3P5VRBBlCYmp2RVdZ5jahbNNFei4Ff"
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1519435303532625972/sUXOuUySdLIZ_jyalVlyu-9wLSyyy8QzFryC95WHGiBAvxVFotVLOUH4EwKHZgC_K7sy"
 
 -- Execution count'u takip etmek için
 local executionCount = 1
